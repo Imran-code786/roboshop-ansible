@@ -1,5 +1,5 @@
 - name: Setup Frontend
-  hosts: local host
-  connection: local
+  hosts: all
+  become: yes
   roles:
     - frontend
