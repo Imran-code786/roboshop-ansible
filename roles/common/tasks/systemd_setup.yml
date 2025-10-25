@@ -1,6 +1,6 @@
 - name: copy systemd file
   ansible.builtin.copy:
-    src: "{{ c }}.service"
+    src: "{{ component }}.service"
     dest: /etc/systemd/system/{{ component }}.service
 
 - name: start {{ compnent }} service
