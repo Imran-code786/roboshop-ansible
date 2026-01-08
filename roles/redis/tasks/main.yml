@@ -3,9 +3,15 @@
     name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
     state: present
     disable_gpg_check: true
+  when:
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version == "8"
 
-- name: Enable Redis 6 version
-  ansible.builtin.shell: yum module enable redis:remi-6.2 -y
+- name: Enable Redis 6 version (RHEL 8 only)
+  ansible.builtin.command: yum module enable redis:remi-6.2 -y
+  when:
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version == "8"
 
 - name: Install Redis
   ansible.builtin.dnf:
@@ -22,7 +28,10 @@
   ansible.builtin.replace:
     path: /etc/redis/redis.conf
     regexp: '127.0.0.1'
-    replace: '0.0.0.0'    
+    replace: '0.0.0.0'
+
+
+ 
 
 - name: Start Redis Service
   ansible.builtin.systemd:
